@@ -22,7 +22,7 @@ jobs:
         run: |
           pip install markdown2
       - name: package
-        run: make fakepackage
+        run: make package
       - name: version
         run: echo "::set-output name=version::$(cat .version)"
         id: version
@@ -37,7 +37,7 @@ jobs:
           body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - name: upload linux artifact
+      - name: upload linux arm artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -46,21 +46,48 @@ jobs:
           asset_path: ./releases/flip_linux_arm_${{ steps.version.outputs.version }}.tar.bz2
           asset_name: flip_linux_arm_${{ steps.version.outputs.version }}.tar.bz2
           asset_content_type: application/gzip
-      # - name: upload darwin artifact
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./bin/azblogfilter.darwin-amd64.tar.gz
-      #     asset_name: azblogfilter.darwin-amd64.tar.gz
-      #     asset_content_type: application/gzip
-      # - name: upload windows artifact
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./bin/azblogfilter.windows-amd64.zip
-      #     asset_name: azblogfilter.windows-amd64.zip
-      #     asset_content_type: application/zip
+      - name: upload linux amd64 artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./releases/flip_linux_amd64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_name: flip_linux_amd64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_content_type: application/gzip
+      - name: upload linux arm64 artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./releases/flip_linux_arm64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_name: flip_linux_arm64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_content_type: application/gzip
+      - name: upload darwin amd64 artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./releases/flip_darwin_amd64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_name: flip_darwin_amd64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_content_type: application/gzip
+      - name: upload darwin arm64 artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./releases/flip_darwin_arm64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_name: flip_darwin_arm64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_content_type: application/gzip
+      - name: upload windows amd64 artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./releases/flip_windows_amd64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_name: flip_windows_amd64_${{ steps.version.outputs.version }}.tar.bz2
+          asset_content_type: application/gzip
