@@ -13,8 +13,6 @@ if IS_DEV:
 else:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("postgres", "postgresql")
 
-print("SQLALCHEMY_DATABASE_URI: ", SQLALCHEMY_DATABASE_URI)
-
 GRAPHQL_API = os.environ.get('GRAPHQL_API')
 
 SNOWFLAKE_EXTERNAL_ACCOUNT = os.environ.get('SNOWFLAKE_EXTERNAL_ACCOUNT')
