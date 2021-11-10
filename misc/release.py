@@ -54,28 +54,6 @@ filespec = [
     ],
 ]
 
-debian_copyright_top = (
-'''Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: FLIP
-Upstream-Contact: Flipside developers <dev@flipsidecrypto.com>
-Source: https://github.com/FlipsideCrypto/flip
-Files: *
-Copyright: Flipside developers <dev@flipsidecrypto.com>
-License: MIT
-''')
-
-def debian_copyright(outpath):
-    with open(outpath, 'wt') as fout:
-        fout.write(debian_copyright_top)
-        with open('LICENSE') as fin:
-            for line in fin:
-                line = line.strip()
-                if not line:
-                    line = ' .\n'
-                else:
-                    line = ' ' + line + '\n'
-                fout.write(line)
-
 def arch_ver(outpath, inpath, debarch, version):
     with open(outpath, 'wt') as fout:
         with open(inpath) as fin:
@@ -138,7 +116,7 @@ def compile(goos=None, goarch=None, ldflags=None):
     cmd = ['go', 'build']
     if ldflags is not None:
         cmd.append(ldflags)
-    subprocess.run(cmd, cwd='flip', env=env).check_returncode()
+    subprocess.run(cmd, cwd='cli', env=env).check_returncode()
 
 def extract_usage():
     usage = False
@@ -201,7 +179,6 @@ def main():
     start = time.time()
     ap = argparse.ArgumentParser()
     ap.add_argument('-o', '--outdir', help='The output directory for the build assets', type=str, default='.')
-    ap.add_argument('--no-deb', action='store_true', default=False, help='disable debian package building')
     ap.add_argument('--host-only', action='store_true', default=False, help='only build for host OS and CPU')
     ap.add_argument('--build-only', action='store_true', default=False, help="don't make tar or deb release")
     ap.add_argument('--fake-release', action='store_true', default=False, help='relax some checks during release script development')
@@ -231,9 +208,7 @@ def main():
             continue
         tarname = build_tar(goos, goarch, version, outdir)
         logger.info('\t%s', tarname)
-        # if (not args.no_deb) and (debarch is not None):
-        #     debname = build_deb(debarch, version, outdir)
-        #     logger.info('\t%s', debname)
+
     dt = time.time() - start
     logger.info('done %0.1fs', dt)
     return
