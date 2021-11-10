@@ -9,6 +9,10 @@
     },
     {
         "database": "FLIPSIDE_PROD_DB",
+        "schema": "TERRA_SV"
+    },
+    {
+        "database": "FLIPSIDE_PROD_DB",
         "schema": "UNISWAPV3"
     }
 ]
