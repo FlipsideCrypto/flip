@@ -4,14 +4,17 @@ import os
 PROD_ENV = "prod"
 LOCAL_ENV = "local"
 
-ENV = LOCAL_ENV
+ENV = os.environ.get("prod", "local")
 DEBUG = True
 IS_DEV = True if ENV and ENV != PROD_ENV else False
 
+if IS_DEV:
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+else:
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("postgres", "postgresql")
 
-# SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 print("SQLALCHEMY_DATABASE_URI: ", SQLALCHEMY_DATABASE_URI)
+
 GRAPHQL_API = os.environ.get('GRAPHQL_API')
 
 SNOWFLAKE_EXTERNAL_ACCOUNT = os.environ.get('SNOWFLAKE_EXTERNAL_ACCOUNT')
