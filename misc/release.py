@@ -55,6 +55,22 @@ filespec = [
     ],
 ]
 
+windows_filespec = [
+    # [files], source path, deb path, tar path
+    [
+        ['flip.exe'],
+        'cli',
+        'usr/bin',
+        '',
+    ],
+    [
+        ['LICENSE'],
+        '',
+        None,
+        '',
+    ],
+]
+
 def arch_ver(outpath, inpath, debarch, version):
     with open(outpath, 'wt') as fout:
         with open(inpath) as fin:
@@ -122,16 +138,9 @@ def compile(goos=None, goarch=None, ldflags=None):
 def extract_usage():
     usage = False
     usageBuffer = ""
-    with open('README.md') as infile:
+    with open('README.md', 'r') as infile:
         for line in infile:
-            if "USAGE_START_MARKER" in line:
-                usage = True
-                continue
-            elif "USAGE_END_MARKER" in line:
-                usage = False
-                continue
-            elif usage:
-                usageBuffer += line
+            usageBuffer += line
     return usageBuffer
 
 _usage_html = None
@@ -147,7 +156,11 @@ def build_tar(goos, goarch, version, outdir):
     rootdir = 'flip_{}_{}_{}'.format(goos, goarch, version)
     tarname = os.path.join(outdir, rootdir) + '.tar.bz2'
     tf = tarfile.open(tarname, 'w:bz2')
-    for files, source_path, _, tar_path in filespec:
+    if goos == 'windows':
+        local_filespec = windows_filespec
+    else:
+        local_filespec = filespec
+    for files, source_path, _, tar_path in local_filespec:
         if tar_path is None:
             continue
         for fname in files:
@@ -208,6 +221,10 @@ def main():
             logger.debug('skip packaging')
             continue
         tarname = build_tar(goos, goarch, version, outdir)
+        if goos == 'windows':
+            subprocess.run(['rm', 'flip.exe'], cwd='cli').check_returncode()
+        else:
+            subprocess.run(['rm', 'flip'], cwd='cli').check_returncode()
         logger.info('\t%s', tarname)
 
     dt = time.time() - start
