@@ -24,7 +24,7 @@ jobs:
       - name: package
         run: make fakepackage
       - name: version
-        run: echo $(cat .version)
+        run: echo "::set-output name=version::$(cat .version)"
         id: version
       - name: release
         uses: actions/create-release@v1
