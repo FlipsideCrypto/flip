@@ -1,1 +1,1 @@
-# FLIP -- The Toolkit for OpenData
+# FLIP - The Toolkit for Open Data
