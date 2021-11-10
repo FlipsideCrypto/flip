@@ -1,0 +1,38 @@
+version: "3.4"
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - ENVIRONMENT=${ENVIRONMENT:-local}
+        - ENV=${ENV:-local}
+        - VERSION=${VERSION-}
+    user: root
+    ports:
+      - 3000:80
+    command: /start-reload.sh
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    links:
+      - postgres_db
+    depends_on:
+      - postgres_db
+
+  postgres_db:
+    image: postgres:11.1
+    ports:
+      - 5418:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: flip_api
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password

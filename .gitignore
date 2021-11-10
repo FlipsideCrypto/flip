@@ -1,0 +1,9 @@
+.env
+.pyc
+*.pyc
+__pycache__
+
+# misc
+.DS_Store
+*.pem
+flip

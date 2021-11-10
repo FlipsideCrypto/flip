@@ -1,0 +1,14 @@
+[
+    {
+        "database": "FLIPSIDE_PROD_DB",
+        "schema": "ETHEREUM"
+    },
+    {
+        "database": "FLIPSIDE_PROD_DB",
+        "schema": "TERRA"
+    },
+    {
+        "database": "FLIPSIDE_PROD_DB",
+        "schema": "UNISWAPV3"
+    }
+]

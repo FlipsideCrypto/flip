@@ -1,0 +1,19 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: vqa36599.us-east-1
+      # User/password auth
+      user: FLIPSIDE_JIMMYERS_READER
+      password: TridentWhite207
+      role: ACCOUNTADMIN
+      schema: "{{ env_var('FLIP_USERNAME') }}"
+      region: us-east-1
+      database: COMMUNITY
+      warehouse: COMMUNITY
+      threads: 4
+      client_session_keep_alive: False
+      query_tag: dbt_community
+  config:
+    send_anonymous_usage_stats: False
