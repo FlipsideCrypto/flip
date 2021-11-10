@@ -4,7 +4,7 @@ import os
 PROD_ENV = "prod"
 LOCAL_ENV = "local"
 
-ENV = os.environ.get("prod", "local")
+ENV = os.environ.get("ENV", "local")
 DEBUG = True
 IS_DEV = True if ENV and ENV != PROD_ENV else False
 
