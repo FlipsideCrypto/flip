@@ -52,7 +52,7 @@ func loginCommand() *cobra.Command {
 				return
 			}
 
-			config := api.Config{BaseURL: "http://localhost:3000"}
+			config := api.Config{BaseURL: "https://fsc-flip-api.herokuapp.com"}
 			client, _ := api.NewClient(config)
 			response, authErr := client.Authenticate(username, pwd)
 			if authErr != nil {
@@ -99,7 +99,7 @@ func meCommand() *cobra.Command {
 				return
 			}
 
-			config := api.Config{BaseURL: "http://localhost:3000", JWT: jwt.(string)}
+			config := api.Config{BaseURL: "https://fsc-flip-api.herokuapp.com", JWT: jwt.(string)}
 			client, _ := api.NewClient(config)
 			me, err2 := client.GetMe()
 			if err2 != nil {

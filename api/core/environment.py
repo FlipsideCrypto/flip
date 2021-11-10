@@ -9,7 +9,8 @@ DEBUG = True
 IS_DEV = True if ENV and ENV != PROD_ENV else False
 
 
-SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+# SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE')
 
 GRAPHQL_API = os.environ.get('GRAPHQL_API')
 

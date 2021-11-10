@@ -41,7 +41,7 @@ func credsCommand() *cobra.Command {
 				return
 			}
 
-			config := api.Config{BaseURL: "http://localhost:3000", JWT: jwt.(string)}
+			config := api.Config{BaseURL: "https://fsc-flip-api.herokuapp.com", JWT: jwt.(string)}
 			client, _ := api.NewClient(config)
 			creds, err2 := client.GetDataExchangeCreds()
 			if err2 != nil {
