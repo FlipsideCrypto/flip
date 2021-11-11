@@ -43,7 +43,10 @@ def run():
 
         for o in objects:
             print(f"attaching {o['TABLE_TYPE'].lower()}'{dbname}'.'{o['TABLE_SCHEMA']}'.'{o['TABLE_NAME']}'...")
+            
             if o['TABLE_TYPE'] == 'VIEW':
+                if s['exclude_views'] is True:
+                    continue
                 try:
                     owner_sf.attach_view_to_datashare(DATASHARE_NAME, dbname, o['TABLE_SCHEMA'], o['TABLE_NAME'])
                 except Exception as e:

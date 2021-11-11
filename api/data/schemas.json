@@ -1,18 +1,22 @@
 [
     {
         "database": "FLIPSIDE_PROD_DB",
-        "schema": "ETHEREUM"
+        "schema": "ETHEREUM",
+        "exclude_views": true
     },
     {
         "database": "FLIPSIDE_PROD_DB",
-        "schema": "TERRA"
+        "schema": "TERRA",
+        "exclude_views": true
     },
     {
         "database": "FLIPSIDE_PROD_DB",
-        "schema": "TERRA_SV"
+        "schema": "TERRA_SV",
+        "exclude_views": false
     },
     {
         "database": "FLIPSIDE_PROD_DB",
-        "schema": "UNISWAPV3"
+        "schema": "UNISWAPV3",
+        "exclude_views": true
     }
 ]
