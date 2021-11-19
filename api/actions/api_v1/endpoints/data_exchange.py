@@ -32,5 +32,8 @@ async def get_creds(
         username=datax_user.username,
         password=datax_user.password,
         database=datax_user.database,
-        warehouse=datax_user.warehouse
+        warehouse=datax_user.warehouse,
+        region="us-east-1",
+        role="PUBLIC",
+        docker_image="flipsidejim/flip:latest"
     )

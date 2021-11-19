@@ -3,15 +3,15 @@ default:
   outputs:
     dev:
       type: snowflake
-      account: vqa36599.us-east-1
+      account: "{{ env_var('FLIP_ACCOUNT') }}"
       # User/password auth
-      user: FLIPSIDE_JIMMYERS_READER
-      password: TridentWhite207
-      role: ACCOUNTADMIN
+      user: "{{ env_var('FLIP_USERNAME') }}"
+      password: "{{ env_var('FLIP_PASSWORD') }}"
+      role: "{{ env_var('FLIP_ROLE') }}"
       schema: "{{ env_var('FLIP_USERNAME') }}"
-      region: us-east-1
-      database: COMMUNITY
-      warehouse: COMMUNITY
+      region: "{{ env_var('FLIP_REGION') }}"
+      database: "{{ env_var('FLIP_DATABASE') }}"
+      warehouse: "{{ env_var('FLIP_WAREHOUSE') }}"
       threads: 4
       client_session_keep_alive: False
       query_tag: dbt_community

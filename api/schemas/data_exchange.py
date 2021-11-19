@@ -17,3 +17,6 @@ class DataExchangeCreds(BaseModel):
     password: str
     database: str
     warehouse: str
+    region: str
+    role: str
+    docker_image: str

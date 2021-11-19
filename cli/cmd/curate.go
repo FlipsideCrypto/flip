@@ -16,8 +16,11 @@ limitations under the License.
 package cmd
 
 import (
+	"errors"
+	"flip/services"
 	"fmt"
 
+	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
@@ -31,7 +34,37 @@ var curateCMD = &cobra.Command{
 func initCurationProjectCMD() *cobra.Command {
 	return &cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("🤫 This feature is coming soon...")
+			user, err := services.NewUser()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			_, err = user.GetMe()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			projectName, projectNameErr := getProjectName()
+
+			if projectNameErr != nil {
+				fmt.Printf("❌ Failed to create project %v\n", projectNameErr)
+				return
+			}
+
+			project, err := services.NewProject(projectName)
+			if err != nil {
+				fmt.Println(err)
+
+				return
+			}
+
+			err = project.Init()
+			if err != nil {
+				fmt.Println(fmt.Sprintf("🥳 Your project was succesfully initialized! Run `cd ./%s` to navigate to your project's directory.", projectName))
+				return
+			}
+
 		},
 		Use:   `init`,
 		Short: "Create a new Flip Data Curation project",
@@ -42,7 +75,27 @@ func initCurationProjectCMD() *cobra.Command {
 func dbtConsoleCMD() *cobra.Command {
 	return &cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("🤫 This feature is coming soon...")
+			user, err := services.NewUser()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			datax, err := user.GetDatax()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			dbt, err := services.NewDBT(datax, "8000")
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			err = dbt.Console()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
 		},
 		Use:   `dbt-console`,
 		Short: "Enter into a DBT environment for your project",
@@ -53,7 +106,34 @@ func dbtConsoleCMD() *cobra.Command {
 func dbtDocsCMD() *cobra.Command {
 	return &cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("🤫 This feature is coming soon...")
+			port, _ := cmd.Flags().GetString("port")
+			if port == "" {
+				port = "8085"
+			}
+
+			user, err := services.NewUser()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			datax, err := user.GetDatax()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			dbt, err := services.NewDBT(datax, port)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			err = dbt.Docs()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
 		},
 		Use:   `dbt-docs`,
 		Short: "Launch DBT docs for your project",
@@ -61,9 +141,66 @@ func dbtDocsCMD() *cobra.Command {
 	}
 }
 
+func dbtResetEnv() *cobra.Command {
+	return &cobra.Command{
+		Run: func(cmd *cobra.Command, args []string) {
+			user, err := services.NewUser()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			datax, err := user.GetDatax()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			dbt, err := services.NewDBT(datax, "8000")
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			err = dbt.ResetEnv()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+		},
+		Use:   `reset-env`,
+		Short: "Reset your local env (remove docker image, etc.)",
+		Long:  `Reset your local env (remove docker image, etc.)`,
+	}
+}
+
 func init() {
 	curateCMD.AddCommand(initCurationProjectCMD())
 	curateCMD.AddCommand(dbtConsoleCMD())
-	curateCMD.AddCommand(dbtDocsCMD())
+
+	var Port string
+	dbtDocs := dbtDocsCMD()
+	dbtDocs.Flags().StringVarP(&Port, "port", "p", "", "Local port to run dbt docs server on.")
+	curateCMD.AddCommand(dbtDocs)
+
+	curateCMD.AddCommand(dbtResetEnv())
 	rootCmd.AddCommand(curateCMD)
+}
+
+func getProjectName() (string, error) {
+	validate := func(input string) error {
+		if input == "" {
+			return errors.New("🙅 A project name is required!")
+		}
+		return nil
+	}
+
+	prompt := promptui.Prompt{
+		Label:    "What's the name of your project?",
+		Validate: validate,
+	}
+
+	result, err := prompt.Run()
+
+	return result, err
 }
