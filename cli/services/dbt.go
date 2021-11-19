@@ -61,7 +61,6 @@ func (d *DBT) Docs() error {
 		d.Datax.DockerImage, "/support/dbt_docs.sh",
 	}
 	cmdh := exec.Command("docker", docker_args...)
-	// stdout, err := cmdh.Output()
 	cmdh.Stdout = os.Stdout
 	cmdh.Stdin = os.Stdin
 	cmdh.Stderr = os.Stderr
@@ -70,7 +69,7 @@ func (d *DBT) Docs() error {
 }
 
 func (d *DBT) ResetEnv() error {
-	cmdh := exec.Command("docker", "rm", d.Datax.DockerImage, "--force")
+	cmdh := exec.Command("docker", "image", "rm", d.Datax.DockerImage, "--force")
 	cmdh.Stdout = os.Stdout
 	cmdh.Stdin = os.Stdin
 	cmdh.Stderr = os.Stderr
