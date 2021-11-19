@@ -1,4 +1,4 @@
-# `flip` <em>the toolkit for open data</em>
+# `flip` <em>the toolkit for open blockchain data</em>
 
 `flip` is a command line tool that provides progamatic access to Flipside's on-chain data exchange.
 
@@ -9,9 +9,10 @@
 
 ## Getting Started
 
-1. Download the latest release [here](https://github.com/FlipsideCrypto/flip/releases) for your machine (mac, linux, windows) and unpack it's contents.
-2. Login with your Flipside Velocity account (`./flip auth login`).
-3. Run `./flip --help` to see all the available commands.
+1. [PREQUISITE] Download [Docker for Desktop](https://www.docker.com/products/docker-desktop).
+2. Download the latest release [here](https://github.com/FlipsideCrypto/flip/releases) for your machine (mac, linux, windows) and unpack it's contents.
+3. Login with your Flipside Velocity account (`./flip auth login`).
+4. Run `./flip --help` to see all the available commands.
 
 ## Commands
 
@@ -31,15 +32,24 @@ View details on your account.
 `flip datax creds`
 Return credentials to Flipside's Data Exchange. These creds will provide you programmatic access to Flipside's curated data views.
 
-<b>Coming soon...</b>
+### Curate
 
-### Curate (coming very soon)
+The following commands allow you to interact with a fully-featured curation environment powered by DBT.
 
 `flip curate init`
 Generate a Flipside DBT project on your local machine.
 
+! NOTE !
+After generating a project `cd <your project directory>` to run the commands below.
+
 `flip curate dbt-console`
-Enter into a fully-featured dbt environment. No DBT install is required. The only requirement is that you have docker installed on your machine.
+Enter into a fully-featured dbt environment. No DBT install is required. The only requirement is that you have docker installed on your machine. This command must be run from the root of your DBT project.
 
 `flip curate dbt-docs`
-Compile and access documentation for your Flipside DBT project.
+Compile and access documentation for your Flipside DBT project. This command must be run from the root of your dbt project.
+
+`flip curate reset-env`
+Remove the current docker image from your machine and re-download the latest version.
+
+`flip curate flipside-docs`
+Retrieve a link to Flipside's official [table documentation](https://docs.flipsidecrypto.com/our-data/tables).
