@@ -103,6 +103,22 @@ func dbtConsoleCMD() *cobra.Command {
 	}
 }
 
+func flipsideDocs() *cobra.Command {
+	return &cobra.Command{
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println()
+			fmt.Println("Check the latest table docs 👇")
+			fmt.Println()
+			fmt.Println(fmt.Sprintf("  🔗 https://docs.flipsidecrypto.com/our-data/tables"))
+			fmt.Println()
+			fmt.Println()
+		},
+		Use:   `flipside-docs`,
+		Short: "Link to Flipside Table Docs",
+		Long:  `Link to Flipside Table Docs`,
+	}
+}
+
 func dbtDocsCMD() *cobra.Command {
 	return &cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
@@ -184,6 +200,7 @@ func init() {
 	curateCMD.AddCommand(dbtDocs)
 
 	curateCMD.AddCommand(dbtResetEnv())
+	curateCMD.AddCommand(flipsideDocs())
 	rootCmd.AddCommand(curateCMD)
 }
 

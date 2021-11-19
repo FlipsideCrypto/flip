@@ -25,6 +25,7 @@ func (d *DBT) Console() error {
 	docker_args := []string{
 		"run",
 		"-it",
+		"--env", "FLIP_ACCOUNT=" + d.Datax.Account,
 		"--env", "FLIP_USERNAME=" + d.Datax.Username,
 		"--env", "FLIP_PASSWORD=" + d.Datax.Password,
 		"--env", "FLIP_REGION=" + d.Datax.Region,
@@ -35,7 +36,6 @@ func (d *DBT) Console() error {
 		d.Datax.DockerImage, "/support/dbt_console.sh",
 	}
 	cmdh := exec.Command("docker", docker_args...)
-	// stdout, err := cmdh.Output()
 	cmdh.Stdout = os.Stdout
 	cmdh.Stdin = os.Stdin
 	cmdh.Stderr = os.Stderr
@@ -50,6 +50,7 @@ func (d *DBT) Docs() error {
 		"run",
 		"-it",
 		"-p", d.Port + ":" + d.Port,
+		"--env", "FLIP_ACCOUNT=" + d.Datax.Account,
 		"--env", "FLIP_USERNAME=" + d.Datax.Username,
 		"--env", "FLIP_PASSWORD=" + d.Datax.Password,
 		"--env", "FLIP_REGION=" + d.Datax.Region,
