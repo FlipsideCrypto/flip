@@ -10,7 +10,7 @@
 ## Getting Started
 
 1. [PREQUISITE] Download [Docker for Desktop](https://www.docker.com/products/docker-desktop).
-2. Download the latest release [here](https://github.com/FlipsideCrypto/flip/releases) for your machine (mac, linux, windows) and unpack it's contents.
+2. Download the latest release [here](https://github.com/FlipsideCrypto/flip/releases/tag/0.2.0) for your machine (mac, linux, windows) and unpack it's contents.
 3. Login with your Flipside Velocity account (`./flip auth login`).
 4. Run `./flip --help` to see all the available commands.
 
